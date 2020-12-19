@@ -30,12 +30,21 @@ jobs:
         run: |
           pip install git+https://github.com/getnikola/nikola.git#egg=Nikola
       - name: Install test dependencies
+        # TODO remove pytest-approvaltests here after its added to nikola project requirements-tests.txt
         run: |
-          pip install pybtex
+               pip install pybtex pytest-approvaltests
+      - name: Install PlantUML
+        # Not using "apt-get install plantuml" because it is an old version
+        run: |
+          apt-get install java-runtime-headless
+          wget -q -O "${{github.workspace}}/plantuml.jar" "https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/${PLANTUML_VERSION}/plantuml-${PLANTUML_VERSION}.jar"
+        env:
+          PLANTUML_VERSION: 1.2020.23
       - name: Run tests
         run: |
           py.test tests/
-
+        env:
+          PLANTUML_EXEC: java -Djava.awt.headless=true -jar ${{github.workspace}}/plantuml.jar
   flake8:
     name: Linting (flake8)
     strategy:

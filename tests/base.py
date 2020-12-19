@@ -3,13 +3,17 @@
 # Date: 03/2013
 
 from unittest import TestCase
+
+from doit.loader import generate_tasks
+from doit.task import Stream
+
 TestCase.maxDiff = None
 
 
 """ Base class for Nikola test cases """
 
 
-__all__ = ["BaseTestCase", "cd", "LocaleSupportInTesting"]
+__all__ = ["BaseTestCase", "cd", "execute_plugin_tasks", "LocaleSupportInTesting"]
 
 
 import os
@@ -44,6 +48,15 @@ def cd(path):
     os.chdir(path)
     yield
     os.chdir(old_dir)
+
+
+def execute_plugin_tasks(plugin: Task, verbosity: int = 0):
+    tasks = generate_tasks(plugin.name, plugin.gen_tasks())
+    stream = Stream(verbosity)
+    for t in tasks:
+        catched = t.execute(stream)
+        if catched:
+            raise Exception("Task error for '{}'\n{}".format(t.name, catched.get_msg()))
 
 
 class LocaleSupportInTesting(object):

@@ -85,3 +85,12 @@ In which you need to put in the `Author`, `Version`, `Website` (of the plugin; y
 ### `[plugin name].py`
 
 This is where your plugin resides.  [Follow the *Extending Nikola* tutorial for instructions on how to write a plugin.](https://getnikola.com/extending.html)
+
+### Approval Testing
+
+Some tests use [Approval Testing](https://approvaltests.com/)
+via [pytest-approvaltests](https://github.com/emilybache/pytest-approvaltests).
+
+Use your favourite diff tool when developing locally by running pytest with an argument like this:
+
+      --approvaltests-add-reporter /usr/local/bin/idea
