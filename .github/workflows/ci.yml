@@ -46,7 +46,7 @@ jobs:
         run: |
           py.test tests/
         env:
-          PLANTUML_EXEC: java -Djava.awt.headless=true -jar "${{github.workspace}}/plantuml.jar"
+          PLANTUML_EXEC: java -Djava.awt.headless=true -jar ${{github.workspace}}/plantuml.jar
       - name: Archive PNG test failures
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
