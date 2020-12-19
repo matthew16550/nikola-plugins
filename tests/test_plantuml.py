@@ -66,6 +66,7 @@ def verify_plantuml_file(monkeypatch, tmp_path, verify_file):
                 '-nometadata',
                 '-Ipages/includes/include1.iuml',
                 '-SDefaultFontName=DejaVu Sans',
+                '-SLifeLineStrategy=solid',
                 '-SShadowing=false',
             ],
             'PLANTUML_FILES': (
