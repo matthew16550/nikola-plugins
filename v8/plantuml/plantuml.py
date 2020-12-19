@@ -3,6 +3,7 @@ import subprocess
 from logging import DEBUG
 from math import ceil
 from pathlib import Path
+from subprocess import PIPE
 from typing import Optional, Sequence
 from xml.sax.saxutils import escape
 
@@ -28,6 +29,10 @@ FORMAT_ARG = {
 }
 
 
+# TODO when 3.5 support is dropped
+# - Use capture_output arg in subprocess.run()
+# - Change typing annotation on self.plantuml_manager
+
 class PlantUmlTask(Task):
     """Renders PlantUML files"""
 
@@ -35,7 +40,7 @@ class PlantUmlTask(Task):
 
     def __init__(self):
         super().__init__()
-        self.plantuml_manager: Optional[PlantUmlManager] = None
+        self.plantuml_manager = None  # type: Optional[PlantUmlManager]
 
     def set_site(self, site):
         super().set_site(site)
@@ -105,7 +110,7 @@ class PlantUmlManager:
         command.extend(args)
         command.extend(['-pipe', '-stdrpt', FORMAT_ARG[output_format]])
         self._logger.debug('render() exec: %s\n%s', command, source)
-        result = subprocess.run(command, capture_output=True, input=source)
+        result = subprocess.run(command, input=source, stdout=PIPE, stderr=PIPE)
 
         if result.returncode == 0:
             return result.stdout

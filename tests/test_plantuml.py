@@ -192,7 +192,7 @@ def verify_file(request):
         namer = PyTestNamer(request, path.suffix)
         approved = namer.get_approved_filename()
         received = namer.get_received_filename()
-        copyfile(path, received)
+        copyfile(str(path), received)
         if not FileApprover().verify_files(approved, received, get_default_reporter()):
             raise ApprovalException("Approval Mismatch")
 
