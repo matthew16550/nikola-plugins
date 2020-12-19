@@ -19,7 +19,7 @@ class PlantUmlMarkdownExtension(MarkdownExtension, Extension):
 
     def __init__(self):
         super().__init__()
-        self.processor: Optional[PlantUmlMarkdownProcessor] = None
+        self.processor = None  # type: Optional[PlantUmlMarkdownProcessor]
 
     def extendMarkdown(self, md: Markdown):
         try:
@@ -39,7 +39,7 @@ class PlantUmlMarkdownProcessor(FencedBlockPreprocessor):
     def __init__(self, md: Markdown, site: Nikola, logger: Logger):
         super().__init__(md, {})
         self._logger = logger
-        self._plantuml_args: Optional[List[str]] = None
+        self._plantuml_args = None  # type: Optional[List[str]]
         self._plantuml_manager = None
         self._plantuml_prefix = []
         self._site = site
@@ -128,7 +128,7 @@ ID_OR_CLASS_RE = re.compile(' *([.#])([^ =]+) *')
 
 
 def first_line_for_listing_block(match: Match) -> str:
-    def replace(m: Match) -> str:
+    def replace(m):
         return 'anchor_ref={} '.format(m.group(2)) if m.group(1) == '#' else ''
 
     attrs = match.group('attrs')

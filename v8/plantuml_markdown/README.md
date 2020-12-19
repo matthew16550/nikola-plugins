@@ -1,5 +1,7 @@
 Markdown compiler plugin to support [PlantUML](https://plantuml.com/).
 
+Requires Python >= 3.6
+
 Installation
 ============
 

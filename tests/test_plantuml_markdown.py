@@ -1,4 +1,5 @@
 import os
+import sys
 from textwrap import dedent
 
 import pytest
@@ -12,6 +13,7 @@ from v8.plantuml.plantuml import PlantUmlTask
 from v8.plantuml_markdown.plantuml_markdown import PlantUmlMarkdownExtension, first_line_for_listing_block
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_svg(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     ```plantuml
@@ -20,6 +22,7 @@ def test_svg(verify_plantuml_markdown):
     """)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_with_other_markdown(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     # A Diagram
@@ -34,6 +37,7 @@ def test_with_other_markdown(verify_plantuml_markdown):
     """)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_listing(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     ```{ .plantuml listing }
@@ -43,6 +47,7 @@ def test_listing(verify_plantuml_markdown):
     """)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_line_numbering(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     ```{ .plantuml #baz listing linenums=y linenostart=10 }
@@ -52,6 +57,7 @@ def test_line_numbering(verify_plantuml_markdown):
     """)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_svg_and_listing(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     ``` { .plantuml svg+listing }
@@ -60,6 +66,7 @@ def test_svg_and_listing(verify_plantuml_markdown):
     """)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_listing_and_svg(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     ``` { .plantuml listing+svg }
@@ -68,6 +75,7 @@ def test_listing_and_svg(verify_plantuml_markdown):
     """)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_prefix(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     ```plantuml_prefix
@@ -85,6 +93,7 @@ def test_prefix(verify_plantuml_markdown):
     """)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_error(verify_plantuml_markdown):
     verify_plantuml_markdown("""
     ```plantuml
@@ -99,6 +108,7 @@ def test_error(verify_plantuml_markdown):
     ("```plantuml hl_lines='3 4'", "``` text hl_lines=\"3 4\""),
     ("``` { .plantuml .foo #bar linenums=y hl_lines=\"3 4\" }", "``` { .text anchor_ref=bar linenums=y hl_lines=\"3 4\" }"),
 ])
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python >= 3.6")
 def test_first_line_for_listing_block(line, expected):
     match = FencedBlockPreprocessor.FENCED_BLOCK_RE.match(line + "\n```")
     assert match
