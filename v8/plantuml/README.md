@@ -13,11 +13,11 @@ The plugin expects PlantUML files to be encoded with UTF-8.
 
 # Known Issues
 
-- It's slow!  Every PlantUML rendering uses a new Java process, on my laptop it takes 3-4 seconds per file.
+- It's slow!  Every PlantUML rendering uses a new Java process, on my laptop it takes 4-8 seconds per file.
   I have some ideas to speed this up, and they may be available in future plugin versions.
 
 - Changes to files included via `!include ...` will NOT trigger a rebuild.
-  Instead, you can include them via `PLANTUML_FILES` and those will trigger a rebuild.
+  Instead, you could include them via `PLANTUML_ARGS` and those will trigger a rebuild.
 
 - `nikola auto` does not watch dirs in `PLANTUML_FILES` or files included via `PLANTUML_ARGS` / `!include`.
   As a workaround you could put PlantUML files under any dir listed in `POSTS` or `PAGES` because those dirs
