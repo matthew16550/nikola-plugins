@@ -41,7 +41,7 @@ jobs:
           sudo apt-get install default-jre-headless
 
           # Avoid Java logging "Created user preferences directory"
-          RUN mkdir -p ~/.java/.userPrefs
+          mkdir -p ~/.java/.userPrefs
 
           wget -q -O "${{github.workspace}}/plantuml.jar" "https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/${PLANTUML_VERSION}/plantuml-${PLANTUML_VERSION}.jar"
       - name: Run tests
