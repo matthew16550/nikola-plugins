@@ -1,7 +1,6 @@
 import re
 from logging import Logger
-from re import Match
-from typing import List, Optional
+from typing import List, Match, Optional
 
 from markdown import Markdown
 from markdown.extensions import Extension
