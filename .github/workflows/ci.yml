@@ -40,15 +40,16 @@ jobs:
           wget -q -O plantuml.jar "https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/${PLANTUML_VERSION}/plantuml-${PLANTUML_VERSION}.jar"
         env:
           PLANTUML_VERSION: 1.2020.23
+      - name: list fonts
+        run: java -Djava.awt.headless=true -jar plantuml.jar -printfonts
       - name: Run tests
         run: |
           py.test tests/
         env:
           PLANTUML_EXEC: java -Djava.awt.headless=true -jar plantuml.jar
-      - name: list fonts
-        run: java -Djava.awt.headless=true -jar plantuml.jar -printfonts
       - name: Archive PNG test failures
         uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: png-test-failures-${{matrix.python}}
           path: tests/*.received.png
