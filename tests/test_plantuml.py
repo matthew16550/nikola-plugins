@@ -1,5 +1,4 @@
 import os
-import platform
 from pathlib import Path
 from shutil import copyfile
 from typing import Dict
@@ -19,14 +18,12 @@ foo bar
 """.lstrip()
 
 GOOD_PLANTUML = """
-A -> B : test \u2713
-A -> B : defined=$defined
+participant "test \u2713"
+participant "defined $defined"
 """.lstrip()
 
-CHECK_MARK = '\u2713'  # for unicode testing
 
 
-@pytest.mark.skipif(platform.system() != 'Linux', reason="Exact rendering differs per OS")
 def test_render_png_file(verify_plantuml_file):
     verify_plantuml_file(GOOD_PLANTUML, 'foo', 'png')
 
@@ -59,8 +56,8 @@ def verify_plantuml_file(monkeypatch, tmp_path, verify_file):
         (tmp_path / 'pages').mkdir()
         (tmp_path / 'pages' / 'test.puml').write_text(text, encoding='utf8')
         (tmp_path / 'pages' / 'includes').mkdir()
-        (tmp_path / 'pages' / 'includes' / 'include1.iuml').write_text('A -> B : this is include1 ' + CHECK_MARK, encoding='utf8')
-        (tmp_path / 'pages' / 'includes' / 'include2.iuml').write_text('A -> B : this is include2 ' + CHECK_MARK, encoding='utf8')
+        (tmp_path / 'pages' / 'includes' / 'include1.iuml').write_text('participant "include1 \u2713"', encoding='utf8')
+        (tmp_path / 'pages' / 'includes' / 'include2.iuml').write_text('participant "include2 \u2713"', encoding='utf8')
 
         plugin = create_plugin({
             'PLANTUML_ARGS': [
