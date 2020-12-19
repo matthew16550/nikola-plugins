@@ -36,7 +36,7 @@ jobs:
       - name: Install PlantUML
         # Not using "apt-get install plantuml" because it is an old version
         run: |
-          sudo apt-get install java-runtime-headless
+          sudo apt-get install default-jre-headless
           wget -q -O "${{github.workspace}}/plantuml.jar" "https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/${PLANTUML_VERSION}/plantuml-${PLANTUML_VERSION}.jar"
         env:
           PLANTUML_VERSION: 1.2020.23
