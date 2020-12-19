@@ -3,7 +3,7 @@ import subprocess
 from logging import DEBUG
 from math import ceil
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional, Sequence
 from xml.sax.saxutils import escape
 
 from nikola import Nikola, utils
@@ -78,7 +78,7 @@ class PlantUmlTask(Task):
                 }
                 yield utils.apply_filters(task, filters)
 
-    def render_file(self, src: Path, dst: Path, output_format, args: List[str]) -> bool:
+    def render_file(self, src: Path, dst: Path, output_format, args: Sequence[str]) -> bool:
         output = self.plantuml_manager.render(src.read_bytes(), output_format, args)
         dst.parent.mkdir(parents=True, exist_ok=True)
         dst.write_bytes(output)
@@ -100,9 +100,10 @@ class PlantUmlManager:
         self._site = site
 
     # noinspection PyBroadException
-    def render(self, source: bytes, output_format: str, args: List[str]) -> bytes:
-        _exec = [e.replace('%site_path%', os.getcwd()) for e in self._exec]
-        command = _exec + args + ['-pipe', '-stdrpt', FORMAT_ARG[output_format]]
+    def render(self, source: bytes, output_format: str, args: Sequence[str]) -> bytes:
+        command = [e.replace('%site_path%', os.getcwd()) for e in self._exec]
+        command.extend(args)
+        command.extend(['-pipe', '-stdrpt', FORMAT_ARG[output_format]])
         self._logger.debug('render() exec: %s\n%s', command, source)
         result = subprocess.run(command, capture_output=True, input=source)
 
