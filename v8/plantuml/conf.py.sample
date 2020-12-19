@@ -47,7 +47,7 @@ PLANTUML_FILES = (
 )
 
 #
-# PLANTUML_DEBUG (boolean) - Control verbosity of this plugin
+# PLANTUML_DEBUG (boolean) - Control plugin verbosity
 #
 PLANTUML_DEBUG = False
 

@@ -34,4 +34,4 @@ __pycache__/
 output
 cache
 .doit.db
-tests/*.received.*
+tests/**/*.received.*
