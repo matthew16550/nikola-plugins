@@ -45,6 +45,12 @@ jobs:
           py.test tests/
         env:
           PLANTUML_EXEC: java -Djava.awt.headless=true -jar ${{github.workspace}}/plantuml.jar
+      - name: Archive PNG test failures
+          uses: actions/upload-artifact@v2
+          if: failure()
+          with:
+            name: png-test-failures
+            path: tests/*.received.png
   flake8:
     name: Linting (flake8)
     strategy:
