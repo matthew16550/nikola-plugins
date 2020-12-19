@@ -1,4 +1,5 @@
 import os
+import platform
 from pathlib import Path
 from shutil import copyfile
 from typing import Dict
@@ -25,8 +26,9 @@ A -> B : defined=$defined
 CHECK_MARK = '\u2713'  # for unicode testing
 
 
+@pytest.mark.skipif(platform.system() != 'Linux', reason="Exact rendering differs per OS")
 def test_render_png_file(verify_plantuml_file):
-    verify_plantuml_file('skinparam dpi 300\n' + GOOD_PLANTUML, 'foo', 'png')  # TODO 300 is a temporary kludge
+    verify_plantuml_file(GOOD_PLANTUML, 'foo', 'png')
 
 
 def test_render_png_file_error(verify_plantuml_file):
