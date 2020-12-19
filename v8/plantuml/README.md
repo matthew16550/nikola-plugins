@@ -29,7 +29,3 @@ The plugin expects PlantUML files to be encoded with UTF-8.
 
 - The file name in PlantUML error messages is always `string` rather than the actual problem file.
   PlantUML does this when input is piped via stdin, which as a compromise for simplicity we always do.
-  
-- `%filename%` in PlantUML files is not substituted.
-  Not clear if this is a bug in PlantUML, the `-filename` cli arg seems not to help.
-  

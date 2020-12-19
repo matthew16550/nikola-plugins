@@ -18,10 +18,10 @@ foo bar
 """.lstrip()
 
 GOOD_PLANTUML = """
+title filename="%filename()"
 participant "test \u2713"
 participant "defined $defined"
 """.lstrip()
-
 
 
 def test_render_png_file(verify_plantuml_file):

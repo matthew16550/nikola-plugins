@@ -77,7 +77,7 @@ class PlantUmlTask(Task):
                     'name': dst_str,
                     'file_dep': includes + [src],
                     'targets': [dst_str],
-                    'actions': [(self.render_file, [src, dst, output_format, combined_args])],
+                    'actions': [(self.render_file, [src, dst, output_format, combined_args + ['-filename', src.name]])],
                     'uptodate': [utils.config_changed(kw, 'plantuml:' + dst_str)],
                     'clean': True,
                 }
