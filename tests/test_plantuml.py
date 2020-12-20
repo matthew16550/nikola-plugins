@@ -193,6 +193,7 @@ def verify_file(request):
         approved = namer.get_approved_filename()
         received = namer.get_received_filename()
         copyfile(str(path), received)
+        assert Path(approved).stat().st_size == Path(received).stat().st_size, 'file size mismatch' # TODO temp
         if not FileApprover().verify_files(approved, received, get_default_reporter()):
             raise ApprovalException("Approval Mismatch")
 
