@@ -35,7 +35,7 @@ jobs:
                pip install pybtex pytest-approvaltests
       - name: Install PlantUML
         env:
-          PLANTUML_VERSION: 1.2020.23
+          PLANTUML_VERSION: 1.2020.24
         run: |
           # Not using "apt-get install plantuml" because it is an old version
           sudo apt-get install default-jre-headless
@@ -45,10 +45,10 @@ jobs:
 
           wget -q -O "${{github.workspace}}/plantuml.jar" "https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/${PLANTUML_VERSION}/plantuml-${PLANTUML_VERSION}.jar"
       - name: Run tests
-        run: |
-          py.test tests/
         env:
           PLANTUML_EXEC: java -Djava.awt.headless=true -jar ${{github.workspace}}/plantuml.jar
+        run: |
+          py.test --color=yes tests/
       - name: Archive PNG test failures
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}

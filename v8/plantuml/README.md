@@ -5,7 +5,7 @@ PlantUML inside Markdown files.
 
 The default configuration will output all `*.puml` files under the `pages` dir as SVG files.
 
-Developed against PlantUML version 1.2020.23.  Probably works with some earlier versions.
+Developed against PlantUML version 1.2020.24.  Probably works with some earlier versions.
 
 # Unicode
 
