@@ -20,7 +20,7 @@ foo bar
 
 GOOD_PLANTUML = """
 title filename="%filename()"
-participant "test \u2713"
+participant "M test \u2713"
 participant "defined $defined"
 """.lstrip()
 

@@ -12,8 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # python: [3.5, 3.6, 3.7, 3.8, 3.9] # TODO temp
-        python: [3.9]
+        python: [3.5, 3.6, 3.7, 3.8, 3.9]
         image:
           - ubuntu-latest
     runs-on: '${{ matrix.image }}'
@@ -31,9 +30,9 @@ jobs:
         run: |
           pip install git+https://github.com/getnikola/nikola.git#egg=Nikola
       - name: Install test dependencies
-        # TODO remove pytest-approvaltests here after its added to nikola project requirements-tests.txt
         run: |
-               pip install pybtex pytest-approvaltests
+          # TODO remove pytest-approvaltests here after its added to nikola project requirements-tests.txt
+          pip install pybtex pytest-approvaltests
       - name: Install PlantUML
         env:
           PLANTUML_VERSION: 1.2020.24
@@ -50,12 +49,12 @@ jobs:
           PLANTUML_EXEC: java -Djava.awt.headless=true -jar ${{github.workspace}}/plantuml.jar
         run: |
           py.test --color=yes tests/
-      - name: Archive PNG test failures
+      - name: Archive approval test failures
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
-          name: png-test-failures-${{matrix.python}}
-          path: tests/*.received.png
+          name: approval-test-failures-${{matrix.python}}
+          path: tests/*.received.*
           if-no-files-found: ignore
   flake8:
     name: Linting (flake8)
