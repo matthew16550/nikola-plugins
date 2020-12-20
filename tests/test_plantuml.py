@@ -4,6 +4,7 @@ from shutil import copyfile
 from typing import Dict
 
 import pytest
+from PIL import Image
 from approvaltests import ApprovalException, FileApprover, get_default_reporter
 from approvaltests.pytest.namer import PyTestNamer
 from pytest import fixture
@@ -24,33 +25,39 @@ participant "defined $defined"
 """.lstrip()
 
 
-def test_render_png_file(verify_plantuml_file):
-    verify_plantuml_file(GOOD_PLANTUML, 'foo', 'png')
+def test_render_png_file(render_file, verify_image_file):
+    file = render_file(GOOD_PLANTUML, 'foo', 'png')
+    verify_image_file(file)
 
 
-def test_render_png_file_error(verify_plantuml_file):
-    verify_plantuml_file(BAD_PLANTUML, 'foo', 'png')
+def test_render_png_file_error(render_file, verify_image_file):
+    file = render_file(BAD_PLANTUML, 'foo', 'png')
+    verify_image_file(file)
 
 
-def test_render_svg_file(verify_plantuml_file):
-    verify_plantuml_file(GOOD_PLANTUML, '', 'svg')
+def test_render_svg_file(render_file, verify_file):
+    file = render_file(GOOD_PLANTUML, '', 'svg')
+    verify_file(file)
 
 
-def test_render_svg_file_error(verify_plantuml_file):
-    verify_plantuml_file(BAD_PLANTUML, '', 'svg')
+def test_render_svg_file_error(render_file, verify_file):
+    file = render_file(BAD_PLANTUML, '', 'svg')
+    verify_file(file)
 
 
-def test_render_txt_file(verify_plantuml_file):
-    verify_plantuml_file(GOOD_PLANTUML, 'foo/bar', 'txt')
+def test_render_txt_file(render_file, verify_file):
+    file = render_file(GOOD_PLANTUML, 'foo/bar', 'txt')
+    verify_file(file)
 
 
-def test_render_txt_file_error(verify_plantuml_file):
-    verify_plantuml_file(BAD_PLANTUML, 'foo/bar', 'txt')
+def test_render_txt_file_error(render_file, verify_file):
+    file = render_file(BAD_PLANTUML, 'foo/bar', 'txt')
+    verify_file(file)
 
 
 @fixture
-def verify_plantuml_file(monkeypatch, tmp_path, verify_file):
-    def f(text, destination, output_format):
+def render_file(monkeypatch, tmp_path):
+    def f(text, destination, output_format) -> Path:
         monkeypatch.chdir(tmp_path)
 
         (tmp_path / 'pages').mkdir()
@@ -78,11 +85,9 @@ def verify_plantuml_file(monkeypatch, tmp_path, verify_file):
             'PLANTUML_RENDER_ERRORS': True,
         })
 
-        # When
         execute_plugin_tasks(plugin)
 
-        # Then
-        verify_file((tmp_path / 'output' / destination / 'test').with_suffix('.' + output_format))
+        return (tmp_path / 'output' / destination / 'test').with_suffix('.' + output_format)
 
     return f
 
@@ -193,8 +198,30 @@ def verify_file(request):
         approved = namer.get_approved_filename()
         received = namer.get_received_filename()
         copyfile(str(path), received)
-        assert Path(approved).stat().st_size == Path(received).stat().st_size, 'file size mismatch' # TODO temp
+
         if not FileApprover().verify_files(approved, received, get_default_reporter()):
             raise ApprovalException("Approval Mismatch")
+
+    return f
+
+
+@fixture
+def verify_image_file(request):
+    # PlantUML in GitHub Actions and PlantUML in Docker on my laptop use different PNG compression levels, no idea why :-(
+    # The files are not byte for byte matches but the images they contain are identical so we just compare that
+    def f(path: Path):
+        namer = PyTestNamer(request, path.suffix)
+        approved = namer.get_approved_filename()
+        received = namer.get_received_filename()
+        copyfile(str(path), received)
+
+        if not Path(approved).exists():
+            Image.new('RGB', (1, 1)).save(approved)
+
+        if Image.open(approved) == Image.open(received):
+            os.remove(received)
+        else:
+            get_default_reporter().report(received, approved)
+            raise ApprovalException("Images do not match")
 
     return f
