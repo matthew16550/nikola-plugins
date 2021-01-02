@@ -1,0 +1,4 @@
+#
+# PLANTUML_MARKDOWN_SVG_ARGS (list of strings) - CLI arguments that are appended to PLANTUML_ARGS (in the 'plantuml' plugin)
+#
+PLANTUML_MARKDOWN_SVG_ARGS = []

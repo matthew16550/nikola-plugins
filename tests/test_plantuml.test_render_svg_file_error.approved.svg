@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="64em" height="4em">
+<rect x="0" y="0" width="64em" height="4em" fill="#dc3545"/>
+<text x="0" y="1em" font-family="monospace" fill="#ffffff">
+<tspan x="1em" dy="1.2em">PlantUML error (return code 200): string:4:error:Syntax Error?</tspan>
+</text>
+</svg>

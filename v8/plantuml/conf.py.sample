@@ -1,0 +1,59 @@
+#
+# PLANTUML_EXEC (list of strings) - The command to run PlantUML
+#
+# '%site_path%' anywhere in PLANTUML_EXEC will be replaced with the full path to the site dir.
+# PlantUML is run in the site dir so often this is not needed.
+#
+# Examples
+# --------
+# Run from a JAR file:
+#   [ 'java', '-Djava.awt.headless=true', '-jar', 'plantuml.jar' ]
+#
+# Run in Docker:
+#   [ 'docker', 'run', '--interactive', '--rm', '--volume', '%site_path%:/work', 'YOUR_IMAGE',
+#     'java', '-Djava.awt.headless=true', '-jar', 'plantuml.jar' ]
+#
+PLANTUML_EXEC = ['plantuml']
+
+#
+# PLANTUML_ARGS (list of strings) - CLI arguments that are sent to PlantUML, see https://plantuml.com/command-line
+#
+# Examples
+# --------
+# Use a common style file for all diagrams:
+#   [ '-Imy_plantuml_style.iuml' ]
+#
+# Specify the style in conf.py
+#   [ '-chide footbox', '-SShadowing=false' ]
+#
+PLANTUML_ARGS = []
+
+#
+# PLANTUML_FILES contains (wildcard, destination, output_format, args) tuples.
+#
+# <wildcard> is used to generate a list of source files (in the same way as POSTS and PAGES).
+#
+# <output_format> is one of 'png', 'svg', 'txt'.
+#
+# Rendered files will be placed at:
+#   output / <destination> / <filename>.<output_format>
+#
+# As with POSTS and PAGES you can create any directory structure you want and it will be reflected in the output.
+#
+# <args> is a list of cli arguments that are appended to PLANTUML_ARGS
+#
+PLANTUML_FILES = (
+    ('pages/*.puml', '', 'svg', []),
+)
+
+#
+# PLANTUML_DEBUG (boolean) - Control plugin verbosity
+#
+PLANTUML_DEBUG = False
+
+#
+# PLANTUML_RENDER_ERRORS (boolean) - If True then PlantUML error messages will be rendered in the target files.
+#
+# You might find this helpful when running `nikola auto`.
+#
+PLANTUML_RENDER_ERRORS = False
