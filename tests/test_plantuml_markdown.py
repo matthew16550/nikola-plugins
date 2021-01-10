@@ -18,11 +18,11 @@ def test_svg(do_fence_test):
         assert compiled.raw_html == regex(
             '<div>'
             '<div class="plantuml" style="display: inline-block; vertical-align: top;">'
-            '<svg [^>]*>'
-            '.*<text [^>]*>Alice</text>'
-            '.*<text [^>]*>Bob</text>'
-            '.*<text [^>]*>hello1</text>'
-            '.*<text [^>]*>hello2</text>'
+            '<svg .*?>'
+            '.*<text .*?>Alice</text>'
+            '.*<text .*?>Bob</text>'
+            '.*<text .*?>hello1</text>'
+            '.*<text .*?>hello2</text>'
             '.*</svg>'
             '</div>'
             '</div>'
@@ -92,7 +92,7 @@ def test_svg_and_listing(do_fence_test):
         assert compiled.raw_html == regex(
             '<div>'
             '<div class="plantuml" style="display: inline-block; vertical-align: top;">'
-            '<svg [^>]*>.*</svg>'
+            '<svg .*?>.*</svg>'
             '</div>'
             '<div class="plantuml" style="display: inline-block; vertical-align: top;">'
             '<pre class="code literal-block">.*</pre>'
@@ -110,7 +110,7 @@ def test_listing_and_svg(do_fence_test):
             '<pre class="code literal-block">.*</pre>'
             '</div>'
             '<div class="plantuml" style="display: inline-block; vertical-align: top;">'
-            '<svg [^>]*>.*</svg>'
+            '<svg .*?>.*</svg>'
             '</div>'
             '</div>',
             re.DOTALL
@@ -142,19 +142,19 @@ def test_prefix(do_compile_test):
             ```
             """) as compiled:
         assert compiled.raw_html == regex(
-            '.*<svg [^>]*>'
-            '.*<text [^>]*>Title 1</text>'
-            '.*<text [^>]*>foo</text>'
-            '.*<text [^>]*>Footer 1</text>'
+            '.*<svg .*?>'
+            '.*<text .*?>Title 1</text>'
+            '.*<text .*?>foo</text>'
+            '.*<text .*?>Footer 1</text>'
             '.*</svg>'
-            '.*<svg [^>]*>'
-            '.*<text [^>]*>Title 1</text>'
-            '.*<text [^>]*>bar</text>'
-            '.*<text [^>]*>Footer 1</text>'
+            '.*<svg .*?>'
+            '.*<text .*?>Title 1</text>'
+            '.*<text .*?>bar</text>'
+            '.*<text .*?>Footer 1</text>'
             '.*</svg>'
-            '.*<svg [^>]*>'
-            '.*<text [^>]*>Title 2</text>'
-            '.*<text [^>]*>baz</text>'
+            '.*<svg .*?>'
+            '.*<text .*?>Title 2</text>'
+            '.*<text .*?>baz</text>'
             '.*</svg>'
             , re.DOTALL
         )
@@ -176,8 +176,8 @@ def test_with_other_markdown(do_compile_test):
             """) as compiled:
         assert compiled.raw_html == regex(
             '<h1>Heading</h1>'
-            '.*<svg [^>]*>'
-            '.*<text [^>]*>foo</text>'
+            '.*<svg .*?>'
+            '.*<text .*?>foo</text>'
             '.*</svg>'
             '.*<pre class="code literal-block"><span class="c1"># comment</span>'
             , re.DOTALL
@@ -193,10 +193,10 @@ def test_plantuml_syntax_error(do_compile_test):
         assert compiled.raw_html == regex(
             '<div>'
             '<div class="plantuml" style="display: inline-block; vertical-align: top;">'
-            '<svg .*>'
-            '.*<text [^>]*>\\[From string \\(line 2\\) \\]</text>'
-            '.*<text [^>]*>this line is bad</text>'
-            '.*<text [^>]*>Syntax Error\\?</text>'
+            '<svg .*?>'
+            '.*<text .*?>\\[From string \\(line 2\\) \\]</text>'
+            '.*<text .*?>this line is bad</text>'
+            '.*<text .*?>Syntax Error\\?</text>'
             '.*</svg>'
             '</div>'
             '</div>',
