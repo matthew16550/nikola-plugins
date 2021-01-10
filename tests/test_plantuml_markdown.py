@@ -16,7 +16,7 @@ from v8.plantuml_markdown.plantuml_markdown import PlantUmlMarkdownProcessor, fi
 def test_svg(do_fence_test):
     with do_fence_test('plantuml') as compiled:
         assert compiled.raw_html == regex(
-            '<div>'
+            '<Xdiv>'
             '<div class="plantuml" style="display: inline-block; vertical-align: top;">'
             '<svg [^>]*>'
             '.*<text [^>]*>Alice</text>'
@@ -33,7 +33,7 @@ def test_svg(do_fence_test):
 def test_listing(do_fence_test):
     with do_fence_test('{ .plantuml listing }') as compiled:
         assert compiled.raw_html == (
-            '<div>'
+            '<Xdiv>'
             '<div class="plantuml" style="display: inline-block; vertical-align: top;">'
             '<pre class="code literal-block">'
             'Alice -&gt; Bob : hello1\n'
