@@ -16,7 +16,8 @@
 PLANTUML_EXEC = ['plantuml']
 
 #
-# PLANTUML_ARGS (list of strings) - CLI arguments that are sent to PlantUML, see https://plantuml.com/command-line
+# PLANTUML_ARGS (list of strings) - CLI arguments that are sent to PlantUML when rendering PlantUML files,
+# see https://plantuml.com/command-line
 #
 # Examples
 # --------
@@ -41,7 +42,7 @@ PLANTUML_ARGS = []
 # <args> is a list of cli arguments that are appended to PLANTUML_ARGS
 #
 PLANTUML_FILES = (
-    ('pages/*.puml', '', '.svg', ['-tsvg']),
+    ('plantuml/*.puml', 'plantuml', '.svg', ['-tsvg']),
 )
 
 #
