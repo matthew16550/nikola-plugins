@@ -67,8 +67,8 @@ class CompileResult:
         failed_file = test_file.with_name(test_file.stem + '.' + self.request.node.name + '.failed.html')
         if exc_type:
             failed_file.write_text(simple_html_page(self.raw_html), encoding='utf8')
-        else:
-            failed_file.unlink(missing_ok=True)
+        elif failed_file.exists():
+            failed_file.unlink()
 
 
 @fixture(scope='session')
