@@ -41,6 +41,17 @@ def basic_compile_test(request, tmp_site_path):
     return f
 
 
+# CompileResult can be used as a Context Manager e.g.
+#
+# def test_example(basic_compile_test):
+#     with basic_compile_test(...) as compiled:
+#         assert compiled.raw_html == 'foo'
+#
+# If the above assertion fails then a file named "<TEST_FILE_NAME>.test_example.failed.html" will be created next to the test file.
+# The html BODY will contain raw_html from the failure.  This lets us quickly view the problem in a browser.
+#
+# If the test is re-run and all assertions pass then failure file will be deleted.
+#
 class CompileResult:
     def __init__(self, request: FixtureRequest, post: Post):
         self.request = request
