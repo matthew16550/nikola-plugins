@@ -46,8 +46,15 @@ jobs:
       - name: Run tests
         env:
           PLANTUML_EXEC: java -Djava.awt.headless=true -jar ${{github.workspace}}/plantuml.jar
+          PLANTUML_RUNNER: exec
         run: |
           py.test --color=yes tests/
+      - name: Run JPype tests
+        env:
+          JPYPE_CLASSPATH: ${{github.workspace}}/plantuml.jar
+          PLANTUML_RUNNER: jpype
+        run: |
+          py.test --color=yes tests/test_plantuml*
   flake8:
     name: Linting (flake8)
     strategy:

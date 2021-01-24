@@ -1,0 +1,13 @@
+[Core]
+Name = jpype
+Module = jpype_plugin
+
+[Nikola]
+MinVersion = 8.0.4
+PluginCategory = ConfigPlugin
+
+[Documentation]
+Author = Matthew Leather
+Version = 0.1.0
+Website = https://plugins.getnikola.com/#jpype
+Description = Makes JPype available for use by other plugins

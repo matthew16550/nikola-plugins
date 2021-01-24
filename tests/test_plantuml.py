@@ -2,8 +2,8 @@ import os
 from textwrap import dedent
 from typing import Dict
 
-from tests import execute_plugin_tasks
-from v8.plantuml.plantuml import PlantUmlTask
+from nikola import Nikola
+from tests import V8_PLUGIN_PATH, execute_plugin_tasks
 
 
 # Note this test is also sufficient to prove that rendering binary image files will work
@@ -128,24 +128,23 @@ def test_task_depends_on_included_files(tmp_site_path):
     ]
 
 
-def create_plugin(config: Dict):
-    plugin = PlantUmlTask()
-    plugin.set_site(FakeSite(config))
-    return plugin
-
-
-class FakeSite:
-    debug = True
-
-    def __init__(self, config: Dict):
-        self.config = {
-            'FILTERS': {},
-            'OUTPUT_FOLDER': 'output',
-            'PLANTUML_DEBUG': True,
-        }
-        self.config.update(config)
-        if 'PLANTUML_EXEC' in os.environ:
-            self.config['PLANTUML_EXEC'] = os.environ['PLANTUML_EXEC'].split()
+def create_plugin(extra_config: Dict):
+    config = {
+        'EXTRA_PLUGINS_DIRS': [
+            str(V8_PLUGIN_PATH / 'jpype'),
+            str(V8_PLUGIN_PATH / 'plantuml'),
+        ],
+        'JPYPE_CLASSPATH': os.environ.get('JPYPE_CLASSPATH', ''),
+        'JPYPE_DEBUG': True,
+        'JPYPE_JVM_ARGS': os.environ.get('JPYPE_JVM_ARGS', '').split(),
+        'PLANTUML_DEBUG': True,
+        'PLANTUML_EXEC': os.environ.get('PLANTUML_EXEC', 'plantuml').split(),
+        'PLANTUML_RUNNER': os.environ.get('PLANTUML_RUNNER', 'exec'),
+    }
+    config.update(extra_config)
+    site = Nikola(**config)
+    site.init_plugins()
+    return site.plugin_manager.getPluginByName('plantuml', 'Task').plugin_object
 
 
 def plugin_tasks(plugin):

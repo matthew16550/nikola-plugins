@@ -1,0 +1,36 @@
+#
+# Most options here are passed directly to jpype.startJVM()
+# See https://jpype.readthedocs.io/en/latest/api.html#jpype.startJVM
+#
+
+#
+# JPYPE_JVM_ARGS (list of strings) - Arguments for the JVM.
+#
+# Beware that any classpath specified here will be overridden by JPYPE_CLASSPATH.
+#
+# If the first argument does not start with a '-' then it is the path to a JVM library file e.g.
+#   Linux:   '/usr/local/openjdk-11/lib/server/libjvm.so'
+#   macOS:   '/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/MacOS/libjli.dylib'
+#   Windows: 'C:\Program Files (x86)\Java\jre1.8.0_171\bin\client\jvm.dll'
+#
+# If no JVM library file is specified then JPype will look for one automatically.
+# See https://jpype.readthedocs.io/en/latest/userguide.html#path-to-the-jvm
+#
+JPYPE_JVM_ARGS = ['-Djava.awt.headless=true']
+
+#
+# JPYPE_CLASSPATH (string or list of strings) - The JVM Classpath
+#
+# See https://jpype.readthedocs.io/en/latest/userguide.html#class-paths
+# We use the "argument style" passed to startJVM()
+#
+JPYPE_CLASSPATH = []
+
+#
+# JPYPE_DEBUG (boolean) - Control plugin verbosity
+#
+JPYPE_DEBUG = False
+
+# See startJVM() docs for details on these options
+JPYPE_IGNORE_UNRECOGNIZED = False
+JPYPE_INTERRUPT = True

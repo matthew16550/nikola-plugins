@@ -152,6 +152,9 @@ def do_compile_test(basic_compile_test):
             '.md',
             data,
             extra_config={
+                'JPYPE_CLASSPATH': os.environ.get('JPYPE_CLASSPATH', ''),
+                'JPYPE_DEBUG': True,
+                'JPYPE_JVM_ARGS': os.environ.get('JPYPE_JVM_ARGS', '').split(),
                 'PLANTUML_DEBUG': True,
                 'PLANTUML_CONTINUE_AFTER_FAILURE': plantuml_continue_after_failure,
                 'PLANTUML_EXEC': os.environ.get('PLANTUML_EXEC', 'plantuml').split(),
@@ -160,8 +163,10 @@ def do_compile_test(basic_compile_test):
                     '-nometadata',
                     '-Sshadowing=false',
                 ],
+                'PLANTUML_RUNNER': os.environ.get('PLANTUML_RUNNER', 'exec'),
             },
             extra_plugins_dirs=[
+                V8_PLUGIN_PATH / 'jpype',
                 V8_PLUGIN_PATH / 'plantuml',
                 V8_PLUGIN_PATH / 'plantuml_markdown',
             ]

@@ -1,5 +1,25 @@
 #
-# PLANTUML_EXEC (list of strings) - The command to run PlantUML
+# PLANTUML_RUNNER ('exec' or 'jpype') - Selects how PlantUML is run.
+#
+# 'exec'  : PLANTUML_EXEC is run as a subprocess each time PlantUML is rendered.
+#           This is slow because a new Java process is started each time and that usually takes a few seconds.
+#
+# 'jpype' : JPype (https://jpype.readthedocs.io/en/latest/) is used to run PlantUML inside the Python process.
+#           This should be a LOT faster than 'exec' but probably more confusing if it has a problem.
+#
+#           You will also need the 'jpype' plugin and a config something like this:
+#
+#           JPYPE_CLASSPATH = '/opt/local/plantuml/plantuml.jar'
+#
+#           JPYPE_JVM_ARGS = [
+#               '/usr/local/openjdk-11/lib/server/libjvm.so',
+#               '-Djava.awt.headless=true',
+#           ]
+#
+PLANTUML_RUNNER = 'exec'
+
+#
+# PLANTUML_EXEC (list of strings) - The command to run PlantUML when PLANTUML_RUNNER='exec'
 #
 # '%site_path%' anywhere in PLANTUML_EXEC will be replaced with the full path to the site dir.
 # PlantUML is run in the site dir so often this is not needed.

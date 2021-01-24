@@ -4,14 +4,18 @@ The default configuration will output all `*.puml` files found under the `plantu
 
 Developed against PlantUML version 1.2020.24.  Probably works with some earlier versions.
 
+PlantUML can be run as a subprocess or via [JPype](https://plugins.getnikola.com/#jpype).
+JPype should be much faster than the subprocess way.  See `PLANTUML_RUNNER` in `conf.py.sample` for more details.
+
+Parallel builds seem to work fine (e.g. `nikola build -n 3 -P thread`) and do speed things up.
+
+Beware that includes are always relative to the site_dir, not relative to the current plant file.
+
 # Unicode
 
 The plugin expects PlantUML files to be encoded with UTF-8.
 
 # Known Issues
-
-- It's slow!  Every PlantUML rendering launches a new Java process, on my laptop it takes 4-8 seconds per file.
-  I have some ideas to speed this up, and they may be available in future plugin versions.
 
 - Changes to files included via `!include ...` or via a pattern (e.g. `-Ipath/to/*.iuml`) will NOT trigger a rebuild.
   Instead, if you include them explicitly in `PLANTUML_ARGS` (e.g. `-Ipath/to/foo.iuml`) then they will trigger a
@@ -27,4 +31,7 @@ The plugin expects PlantUML files to be encoded with UTF-8.
 
 - The file name in PlantUML error messages is always `string` rather than the actual problem file.
   PlantUML does this when input is piped via stdin, which as a compromise for simplicity we always do.
+  
+- `nikola auto` with `PLANTUML_RUNNER='jpype'` will launch a new JVM for each rebuild.  Ideally we would reuse a single
+  long-running JVM.  More thought is needed around this, perhaps using PlantUMLs "server" mode.
   
